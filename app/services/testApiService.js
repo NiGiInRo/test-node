@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { apiError } = require('../errors');
+const logger = require('pino');
 
 const getJoke = async () => {
   try {
@@ -8,7 +9,7 @@ const getJoke = async () => {
     });
     return response.data;
   } catch (err) {
-    console.log(err);
+    logger.info(err);
     throw apiError('api connection failed.');
   }
 };

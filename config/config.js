@@ -1,9 +1,17 @@
 module.exports = {
     port: process.env.PORT || 8081,
-    database: {
+    local: {
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      username: 'postgres',
+      password: 'postgres',
+      dialect: 'postgres'
+    },
+    development: {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      username: 'postgres',
+      password: 'postgres',
+      dialect: 'postgres'
     }
   };

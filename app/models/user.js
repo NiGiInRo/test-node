@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         require: true,
-        field: 'first_name'
+        field: 'name'
       },
       lastName: {
         type: DataTypes.STRING,
@@ -34,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         require: true
+      },
+      roleId: {
+        type: DataTypes.INTEGER,
+        require: true,
+        field: 'role_id'
       },
       isActive: {
         type: DataTypes.BOOLEAN,

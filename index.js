@@ -7,6 +7,10 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 app.set('port', config.port);
 
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 // Configuración de las rutas
 routes.init(app);
 

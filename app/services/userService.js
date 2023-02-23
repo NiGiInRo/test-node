@@ -14,8 +14,6 @@ const getUsersService = async (page = 0, size = 10) => {
 
 const createUserService = async body => {
   try {
-    console.log('SERVICE: ');
-    console.log(models);
     const user = await models.User.create(body);
     return user.save();
   } catch (err) {
@@ -24,4 +22,24 @@ const createUserService = async body => {
   }
 };
 
-module.exports = { getUsersService, createUserService };
+const deleteUserByIdService = async id => {
+  try {
+    const user = await models.User.destroy({ where: { id: id } });
+    return user;
+  } catch (err) {
+    logger.info(err);
+    throw databaseError('connection with db failed or invalid data. check and try again ');
+  }
+};
+
+const updateUserByIdService = async (id, body) => {
+try {
+  const user = await models.User.update( body , { where: { id: id }, returning: true });
+  return user[1][0];
+} catch (err) {
+  logger.info(err);
+  throw databaseError('connection with db failed or invalid data. check and try again ');
+}
+};
+
+module.exports = { getUsersService, createUserService, deleteUserByIdService, updateUserByIdService };

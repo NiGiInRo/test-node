@@ -8,6 +8,6 @@ exports.init = app => {
     //users:
     app.get('/users', getUsersController);
     app.post('/users/create', [validateCreationUser, validateSchema], createUserController);
-    app.put('/users/:id/update', updateUsercontroller);
+    app.put('/users/:id/update', [validateCreationUser, validateSchema], updateUsercontroller);
     app.delete('/users/:id/delete', deleteUserController);
 };

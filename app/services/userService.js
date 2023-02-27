@@ -33,13 +33,23 @@ const deleteUserByIdService = async id => {
 };
 
 const updateUserByIdService = async (id, body) => {
-try {
-  const user = await models.User.update( body , { where: { id: id }, returning: true });
-  return user[1][0];
-} catch (err) {
-  logger.info(err);
-  throw databaseError('connection with db failed or invalid data. check and try again ');
-}
+  try {
+    const user = await models.User.update( body , { where: { id: id }, returning: true });
+    return user[1][0];
+  } catch (err) {
+    logger.info(err);
+    throw databaseError('connection with db failed or invalid data. check and try again ');
+  }
 };
 
-module.exports = { getUsersService, createUserService, deleteUserByIdService, updateUserByIdService };
+const searchEmailService = async email => {
+  try {
+    const user = await models.User.findOne({ where: { email } });
+    return user;
+  } catch (err) {
+    logger.error(err);
+    throw databaseError('connection with db failed.');
+  }
+};
+
+module.exports = { getUsersService, createUserService, deleteUserByIdService, updateUserByIdService, searchEmailService };

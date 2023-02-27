@@ -21,3 +21,12 @@ exports.newUserSerializer = data => ({
       is_active: data.isActive
     }
 });
+
+exports.loginUserSerializer = data => ({
+  user: {
+    first_name: data.firstName,
+    last_name: data.lastName,
+    email: data.email,
+    role_id: data.roleId
+  }
+});

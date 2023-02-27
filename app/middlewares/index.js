@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const logger = require('../../config/logger');
+const { userRoles } = require('../helpers/userRoles');
 
 const validateSchema = (req, res, next) => {
   try {
@@ -23,7 +24,7 @@ const validateJWT = (req, res, next) => {
       }
       const bearer = token.split(' ')[1];
   
-      const tokenData = jwt.verify(bearer, config.common.jwt_token.secret);
+      const tokenData = jwt.verify(bearer, process.env.SECRET_PRIVATE_KEY);
       req.header.user = tokenData;
       return next();
     } catch (err) {
@@ -32,4 +33,16 @@ const validateJWT = (req, res, next) => {
     }
   };
 
-module.exports = { validateSchema, validateJWT };
+  const validateRole = (req, res, next) => {
+    try {
+      if (req.header.user.role_id !== userRoles.admin) {
+        return res.status(401).json({ msg: 'Must be Admin' });
+      }
+      return next();
+    } catch (error) {
+      logger.error(error);
+      throw error;
+    }
+  };
+
+module.exports = { validateSchema, validateJWT, validateRole };

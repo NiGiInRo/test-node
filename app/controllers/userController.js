@@ -1,8 +1,8 @@
 const logger = require('../../config/logger');
-const { encryptPassword } = require('../helpers');
-const { newUserMapper } = require('../mappers/userMapper');
-const { getUsersSerializer, newUserSerializer } = require('../serializers/userSerializer');
-const { getUsersService, createUserService, deleteUserByIdService, updateUserByIdService } = require('../services/userService');
+const { encryptPassword, validateCredentials, userJWT } = require('../helpers');
+const { newUserMapper, loginUserMapper } = require('../mappers/userMapper');
+const { getUsersSerializer, newUserSerializer, loginUserSerializer } = require('../serializers/userSerializer');
+const { getUsersService, createUserService, deleteUserByIdService, updateUserByIdService, searchEmailService } = require('../services/userService');
 
 const getUsersController = async (req, res, next) => {
   try {
@@ -53,4 +53,20 @@ const updateUsercontroller = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsersController, createUserController, deleteUserController, updateUsercontroller }
+const userLogin = async (req, res, next) => {
+  try {
+    const dataUser = loginUserMapper(req.body);
+    const user = await searchEmailService(dataUser.email);
+    const validCredentials = validateCredentials(user, dataUser.password);
+    if (validCredentials) {
+      const loginSerializer = loginUserSerializer(user);
+      const token = userJWT(user.id, user.roleId, user.name, user.lastName, user.birthDay);
+      res.status(200).json({ msg: 'Welcome', user: loginSerializer.user, token });
+    }
+  } catch (err) {
+    logger.error(err);
+    next(err);
+  }
+};
+
+module.exports = { getUsersController, createUserController, deleteUserController, updateUsercontroller, userLogin }

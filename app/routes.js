@@ -1,5 +1,6 @@
+
 const { getjokesController } = require('./controllers/testApiController');
-const { getUsersController, createUserController, deleteUserController, updateUsercontroller, userLogin } = require('./controllers/userController');
+const { getUsersController, createUserController, deleteUserController, updateUsercontroller, userLogin, googleUser } = require('./controllers/userController');
 const { validateSchema, validateRole, validateJWT } = require('./middlewares');
 const { validateSignInUser } = require('./middlewares/schemas/sign-in-schema');
 const { validateCreationUser } = require('./middlewares/schemas/userSchema');
@@ -12,4 +13,6 @@ exports.init = app => {
     app.put('/users/:id/update', [validateCreationUser, validateJWT, validateRole, validateSchema], updateUsercontroller);
     app.delete('/users/:id/delete', [validateJWT, validateRole], deleteUserController);
     app.post('/users/sessions', [validateSignInUser, validateSchema], userLogin);
+    app.get("/auth/google", googleUser)
+
 };

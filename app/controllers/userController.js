@@ -1,6 +1,6 @@
 const logger = require('../../config/logger');
 const { encryptPassword, validateCredentials, userJWT } = require('../helpers');
-const { newUserMapper, loginUserMapper } = require('../mappers/userMapper');
+const { newUserMapper, loginUserMapper, newGoogleUserMapper } = require('../mappers/userMapper');
 const { getUsersSerializer, newUserSerializer, loginUserSerializer } = require('../serializers/userSerializer');
 const { getUsersService, createUserService, deleteUserByIdService, updateUserByIdService, searchEmailService } = require('../services/userService');
 
@@ -69,4 +69,15 @@ const userLogin = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsersController, createUserController, deleteUserController, updateUsercontroller, userLogin }
+const googleUser = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const token = userJWT(user.id, user.roleId, user.name, user.lastName, user.birthDay);
+    res.status(201).json({ msg: 'Welcome', user: user, token });
+  } catch (err) {
+    logger.error(err);
+    next(err);
+  }
+};
+
+module.exports = { getUsersController, createUserController, deleteUserController, updateUsercontroller, userLogin, googleUser }

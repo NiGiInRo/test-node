@@ -1,13 +1,14 @@
 'use strict';
+const uuid = require('uuid')
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
     {
       id: {
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
-        autoIncrement: true,
         unique: true
       },
       name: {

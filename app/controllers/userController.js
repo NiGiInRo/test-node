@@ -72,8 +72,9 @@ const userLogin = async (req, res, next) => {
 const googleUser = async (req, res, next) => {
   try {
     const user = req.user;
+    const loginSerializer = loginUserSerializer(user);
     const token = userJWT(user.id, user.roleId, user.name, user.lastName, user.birthDay);
-    res.status(201).json({ msg: 'Welcome', user: user, token });
+    res.status(201).json({ msg: 'Welcome', user: loginSerializer.user, token });
   } catch (err) {
     logger.error(err);
     next(err);

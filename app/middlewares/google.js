@@ -1,7 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const google_config = require('../../config/googleAuth');
-const { searchEmailService, createUserService } = require('../services/userService');
+const { searchEmailService } = require('../services/userService');
 const { newUserAuthGoogle } = require('../helpers/userHelper');
 
 passport.use("auth-google",
@@ -12,8 +12,6 @@ passport.use("auth-google",
       callbackURL: google_config.google.callbackURL
     },
     async (accessToken, refreshToken, profile, done) => {
-        console.log('PERFIL');
-        console.log(profile);
       const user = await searchEmailService(profile.emails[0].value);
       if (user) {
         done(null, user);

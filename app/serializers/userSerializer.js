@@ -24,7 +24,7 @@ exports.newUserSerializer = data => ({
 
 exports.loginUserSerializer = data => ({
   user: {
-    first_name: data.firstName,
+    first_name: data.name,
     last_name: data.lastName,
     email: data.email,
     role_id: data.roleId

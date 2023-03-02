@@ -16,7 +16,7 @@ exports.newUserMapper = data => ({
     birthDate: null,
     email: profile.emails[0].value,
     password: 'NewUser1*',
-    roleId: userRoles.admin,
+    roleId: userRoles.regular,
     isActive: true
   });
 

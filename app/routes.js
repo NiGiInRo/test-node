@@ -18,5 +18,4 @@ exports.init = app => {
     app.delete('/users/:id/delete', [validateJWT, validateRole], deleteUserController);
     app.post('/users/sessions', [validateSignInUser, validateSchema], userLogin);
     app.get("/auth/google", googleUser)
-
 };

@@ -7,8 +7,8 @@ const models = {
   User: User(sequelize, Sequelize.DataTypes),
   // Otros modelos aquí
 };
-console.log('DB::');
-console.log(dbConfig);
+//console.log('DB::');
+//console.log(dbConfig);
 
 sequelize.sync();
 

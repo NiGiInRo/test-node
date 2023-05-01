@@ -35,6 +35,7 @@ const validateJWT = (req, res, next) => {
 
   const validateRole = (req, res, next) => {
     try {
+      console.log(req.header.user.uid)
       if (req.header.user.role_id !== userRoles.admin) {
         return res.status(401).json({ msg: 'Must be Admin' });
       }
@@ -44,5 +45,13 @@ const validateJWT = (req, res, next) => {
       throw error;
     }
   };
-
-module.exports = { validateSchema, validateJWT, validateRole };
+  
+  const validateCurrentUser = (req, res, next) => {
+    try {
+      console.log(req.header.user)
+    } catch (error) {
+      logger.error(error);
+      throw error;
+    }
+  }
+module.exports = { validateSchema, validateJWT, validateRole, validateCurrentUser };

@@ -2,8 +2,6 @@
 const uuid = require('uuid');
 const db = require('./index');
 
-console.log('weijgbweugwe----------------');
-console.log(db);
 module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define(
     'Product',

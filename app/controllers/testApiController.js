@@ -1,5 +1,5 @@
-const logger = require('pino');
-const { getJoke, getMovieDetails, movieGuestSession } = require("../services/testApiService");
+const logger = require('../../config/logger');
+const { getJoke, getCameraInfo, movieGuestSession, getDeepBlueInfo, getCookieDeepblue } = require("../services/testApiService");
 const { getNews } = require("../services/testNewsApiService");
 
 const getjokesController = async (req, res, next) => {
@@ -34,14 +34,30 @@ const getMovieGuestSessionController = async (req, res, next) => {
 };
 
 
-const getMovieDetailsController = async (req, res, next) => {
+const getCameraInfoController = async (req, res, next) => {
   try {
-    const movie = await getMovieDetails(req.params.id);
-    res.status(200).send(movie);
+    const cameraInfo = await getCameraInfo();
+    console.log(`DEEPBLUE CONTROLLER: `);
+    console.log(req);
+    res.status(201).send(cameraInfo);
   } catch (err) {
     logger.info(err);
     next(err);
   }
 };
 
-module.exports = { getjokesController, getMovieGuestSessionController, getNewsController, getMovieDetailsController };
+const getDeepBlueInfoController = async (req, res, next) => {
+  try {
+    const cookie = await getCookieDeepblue();
+    console.log(`DEEPBLUE COOKIE: `);
+    console.log(cookie);
+    const deepblueInfo = await getDeepBlueInfo(cookie);
+    res.status(200).send(deepblueInfo);
+  } catch (err) {
+    logger.info(err);
+    next(err);
+  }
+};
+
+
+module.exports = { getjokesController, getMovieGuestSessionController, getNewsController, getCameraInfoController, getDeepBlueInfoController };

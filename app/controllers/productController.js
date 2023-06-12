@@ -18,7 +18,8 @@ const getProductsController = async (req, res, next) => {
 const createProductController = async (req, res, next) => {
   try {
     const productMapper = newProductMapper(req.body);
-    productMapper.creatorId = req.header.user.uid
+    console.log(productMapper);
+    //productMapper.creatorId = req.header.user.uid
     const newProduct = await createProductService(productMapper);
     const product = newProductSerializer(newProduct);
     res.status(201).json(product);
